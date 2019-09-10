@@ -1,0 +1,34 @@
+---
+kind: pipeline
+type: image
+name: puslish
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: dryrun-1.12-alpine
+  pull: true
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile1.12-alpine
+    dry_run: true
+    repo: han0110/golang-testing
+    tags:
+    - 1.12-alpine
+
+- name: publish-1.12-alpine
+  pull: true
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile1.12-alpine
+    password:
+      from_secret: docker_password
+    repo: han0110/golang-testing
+    tags:
+    - 1.12-alpine
+    username:
+      from_secret: docker_username
+
+...
