@@ -1,0 +1,10 @@
+FROM golang:1.14-alpine
+# Install basic tools
+RUN apk update && \
+    apk upgrade --update-cache --available
+RUN apk add git make bash gcc musl-dev linux-headers
+RUN rm -rf /var/cache/apk/*
+# Install golang tools
+RUN go get -u golang.org/x/lint/golint
+# Copy golangci-lint
+COPY --from=golangci/golangci-lint:v1.24.0 /usr/bin/golangci-lint /usr/bin/golangci-lint
